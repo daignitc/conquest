@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, X, ExternalLink, ShieldCheck } from "lucide-react";
+import { Menu, X, ExternalLink, Volume2, VolumeX } from "lucide-react";
+import { toggleSound, isSoundEnabled, playClickSound, playHoverSound } from "../utils/audio";
 
 const links = [
   { label: "About", href: "#about" },
@@ -14,12 +15,19 @@ const links = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleSoundToggle = () => {
+    const active = toggleSound();
+    setSoundOn(active);
+    if (active) playClickSound();
+  };
 
   return (
     <motion.nav
@@ -32,7 +40,12 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <a href="#" className="flex items-center gap-3 group">
+      <a
+        href="#"
+        onClick={playClickSound}
+        onMouseEnter={playHoverSound}
+        className="flex items-center gap-3 group"
+      >
         <div className="relative p-1 rounded-sm border border-iron/30 bg-obsidian-raised/80 group-hover:border-ember/60 transition-colors">
           <img src={`${import.meta.env.BASE_URL}GNI.png`} alt="GNI Logo" className="h-9 w-auto object-contain" />
           <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-ember animate-ping" />
@@ -42,7 +55,7 @@ export default function Navbar() {
             AI CONQUEST
           </span>
           <span className="text-[10px] text-ion-blue font-mono tracking-widest block uppercase">
-            2026 // GNI WAR-ROOM
+            2026 // GNITC WAR-ROOM
           </span>
         </div>
       </a>
@@ -56,21 +69,36 @@ export default function Navbar() {
       </div>
 
       {/* Desktop links */}
-      <div className="hidden md:flex items-center gap-7">
+      <div className="hidden md:flex items-center gap-6">
         {links.map((l) => (
           <a
             key={l.label}
             href={l.href}
+            onClick={playClickSound}
+            onMouseEnter={playHoverSound}
             className="text-iron hover:text-parchment text-sm font-medium transition-colors duration-200 focus:outline-none focus:text-ember relative group"
           >
             {l.label}
             <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-ember transition-all duration-300 group-hover:w-full" />
           </a>
         ))}
+
+        {/* Audio Toggle */}
+        <button
+          onClick={handleSoundToggle}
+          className="p-2 rounded border border-iron/20 text-iron hover:text-parchment hover:border-iron/40 transition-colors"
+          title={soundOn ? "Mute interface audio" : "Enable interface audio"}
+          aria-label={soundOn ? "Mute interface audio" : "Enable interface audio"}
+        >
+          {soundOn ? <Volume2 size={16} className="text-ion-blue" /> : <VolumeX size={16} />}
+        </button>
+
         <a
           href="https://konfhub.com/ai-conquest"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={playClickSound}
+          onMouseEnter={playHoverSound}
           className="ember-pulse flex items-center gap-1.5 bg-ember text-obsidian font-bold text-sm px-5 py-2 rounded-sm hover:bg-parchment transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ember font-body shadow-[0_0_15px_rgba(255,106,61,0.5)]"
         >
           <span>Register Now</span>
@@ -79,13 +107,27 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu button */}
-      <button
-        className="md:hidden text-parchment p-2 border border-iron/30 rounded focus:outline-none focus:ring-2 focus:ring-ember"
-        onClick={() => setOpen(!open)}
-        aria-label={open ? "Close menu" : "Open menu"}
-      >
-        {open ? <X size={20} /> : <Menu size={20} />}
-      </button>
+      <div className="flex md:hidden items-center gap-2">
+        <button
+          onClick={handleSoundToggle}
+          className="p-2 rounded border border-iron/30 text-iron hover:text-parchment"
+          title={soundOn ? "Mute interface audio" : "Enable interface audio"}
+          aria-label={soundOn ? "Mute interface audio" : "Enable interface audio"}
+        >
+          {soundOn ? <Volume2 size={16} className="text-ion-blue" /> : <VolumeX size={16} />}
+        </button>
+
+        <button
+          className="text-parchment p-2 border border-iron/30 rounded focus:outline-none focus:ring-2 focus:ring-ember"
+          onClick={() => {
+            setOpen(!open);
+            playClickSound();
+          }}
+          aria-label={open ? "Close menu" : "Open menu"}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
 
       {/* Mobile drawer */}
       {open && (
@@ -98,7 +140,10 @@ export default function Navbar() {
             <a
               key={l.label}
               href={l.href}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                playClickSound();
+              }}
               className="text-parchment font-medium hover:text-ember transition-colors py-1 border-b border-iron/10"
             >
               {l.label}
@@ -108,7 +153,10 @@ export default function Navbar() {
             href="https://konfhub.com/ai-conquest"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              playClickSound();
+            }}
             className="flex items-center justify-center gap-2 bg-ember text-obsidian font-bold text-sm px-5 py-3 rounded-sm text-center shadow-lg"
           >
             <span>Register on Konfhub</span>

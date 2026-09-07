@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Plus, HelpCircle, ExternalLink } from "lucide-react";
+import { Plus, HelpCircle, ExternalLink, Search, X } from "lucide-react";
+import { playClickSound, playHoverSound } from "../utils/audio";
 
 const faqs = [
   {
@@ -26,16 +27,31 @@ const faqs = [
   },
   {
     q: "What awards and certificates will be distributed?",
-    a: "Cash prize pools, trophies, and commemorative shields are awarded to top finishers at the Valedictory ceremony on October 14. All verified participants receive official participation certificates backed by the GNI Department of CSE & AI/ML.",
+    a: "Cash prize pools, trophies, and commemorative shields are awarded to top finishers at the Valedictory ceremony on October 14. All verified participants receive official participation certificates backed by the GNI Department of AIML, IoT, and AI&DS.",
+  },
+  {
+    q: "Will accommodation and food be provided for outstation participants?",
+    a: "Campus cafeteria and dining zones will be active throughout both days. Outstation attendees are requested to coordinate with our student marshals or arrange accommodation at nearby guest lodges.",
+  },
+  {
+    q: "What are the laptop and hardware requirements?",
+    a: "For Prompt Wars, designated desktop workstations are provided in Computing Center A. For AI Reels and E-Sports, participants are encouraged to bring personal laptops and gaming peripherals (mice/keyboards/headsets).",
   },
 ];
 
 function FAQItem({ item }) {
   const [open, setOpen] = useState(false);
+
+  const toggle = () => {
+    setOpen(!open);
+    playClickSound();
+  };
+
   return (
     <div className="border border-iron/25 bg-obsidian-raised/80 rounded-sm overflow-hidden transition-colors hover:border-iron/40">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={toggle}
+        onMouseEnter={playHoverSound}
         className="w-full flex items-start justify-between px-6 py-5 text-left focus:outline-none focus:ring-2 focus:ring-ember focus:ring-inset gap-4"
         aria-expanded={open}
       >
@@ -85,8 +101,15 @@ function FAQItem({ item }) {
 }
 
 export default function FAQ() {
+  const [search, setSearch] = useState("");
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const filtered = faqs.filter(
+    (f) =>
+      f.q.toLowerCase().includes(search.toLowerCase()) ||
+      f.a.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <section id="faq" className="py-24 px-6 md:px-16 lg:px-24 bg-transparent relative">
@@ -100,14 +123,49 @@ export default function FAQ() {
           initial={{ clipPath: "inset(0 100% 0 0)" }}
           animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
           transition={{ duration: 0.7 }}
-          className="font-display font-bold text-parchment text-4xl md:text-5xl mb-10"
+          className="font-display font-bold text-parchment text-4xl md:text-5xl mb-8"
         >
           Frequently Asked Questions
         </motion.h2>
+
+        {/* Real-time Search Input */}
+        <div className="relative mb-6">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-iron pointer-events-none" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search intel (e.g. eligibility, registration, tools, food, prizes)..."
+            className="w-full bg-obsidian-raised/80 border border-iron/30 rounded-sm pl-11 pr-10 py-3.5 text-sm text-parchment font-body placeholder:text-iron focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-iron hover:text-parchment p-1"
+              aria-label="Clear search"
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
+
+        {/* List */}
         <div className="space-y-3">
-          {faqs.map((f, i) => (
-            <FAQItem key={i} item={f} />
-          ))}
+          {filtered.length > 0 ? (
+            filtered.map((f, i) => <FAQItem key={i} item={f} />)
+          ) : (
+            <div className="text-center py-12 border border-iron/20 bg-obsidian-raised/60 rounded-sm">
+              <p className="text-iron font-body text-sm mb-3">
+                No matching briefings found for "{search}".
+              </p>
+              <button
+                onClick={() => setSearch("")}
+                className="px-4 py-2 rounded-sm border border-ember text-ember font-mono text-xs hover:bg-ember hover:text-obsidian transition-colors"
+              >
+                Reset Search
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
