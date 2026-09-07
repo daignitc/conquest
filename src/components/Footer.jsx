@@ -20,7 +20,7 @@ const LinkedinIcon = () => (
 
 export default function Footer() {
   return (
-    <footer className="bg-obsidian border-t border-iron/20 px-6 md:px-16 lg:px-24 py-16 relative">
+    <footer className="bg-obsidian/85 backdrop-blur-lg border-t border-iron/20 px-6 md:px-16 lg:px-24 py-16 relative">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         {/* Brand */}
         <div className="md:col-span-2">

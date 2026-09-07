@@ -152,7 +152,7 @@ export default function Coordinators() {
   return (
     <section
       id="committee"
-      className="py-24 px-6 md:px-16 lg:px-24 bg-obsidian-raised/40 relative overflow-hidden"
+      className="py-24 px-6 md:px-16 lg:px-24 bg-transparent relative overflow-hidden"
     >
       {/* Target anchor support for both #coordinators and #committee */}
       <span id="coordinators" className="absolute -top-24" />

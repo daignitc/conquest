@@ -15,7 +15,7 @@ import Footer from "./components/Footer";
 
 export default function App() {
   return (
-    <div className="relative bg-obsidian min-h-screen selection:bg-ember selection:text-obsidian overflow-x-hidden">
+    <div className="relative min-h-screen selection:bg-ember selection:text-obsidian overflow-x-hidden">
       {/* Persistent Fixed 3D Background */}
       <BackgroundScene3D />
 

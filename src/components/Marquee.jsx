@@ -9,7 +9,7 @@ const items = [
 export default function Marquee() {
   const doubled = [...items, ...items];
   return (
-    <div className="relative overflow-hidden bg-obsidian-raised border-y border-iron/20 py-4">
+    <div className="relative overflow-hidden bg-obsidian-raised/60 backdrop-blur-md border-y border-iron/20 py-4">
       <motion.div
         className="flex gap-8 whitespace-nowrap"
         animate={{ x: ["0%", "-50%"] }}

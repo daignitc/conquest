@@ -51,7 +51,7 @@ export default function Prizes() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="prizes" className="py-24 px-6 md:px-16 lg:px-24 bg-obsidian-raised/80 relative">
+    <section id="prizes" className="py-24 px-6 md:px-16 lg:px-24 bg-transparent relative">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>

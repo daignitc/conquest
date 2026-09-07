@@ -51,7 +51,7 @@ export default function KeyTakeaways() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="takeaways" className="py-24 px-6 md:px-16 lg:px-24 bg-obsidian-raised/30 backdrop-blur-sm relative overflow-hidden">
+    <section id="takeaways" className="py-24 px-6 md:px-16 lg:px-24 bg-transparent relative overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header with Tactical Radar Widget */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-16">

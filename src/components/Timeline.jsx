@@ -38,7 +38,7 @@ export default function Timeline() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="timeline" className="py-24 px-6 md:px-16 lg:px-24 bg-obsidian relative">
+    <section id="timeline" className="py-24 px-6 md:px-16 lg:px-24 bg-transparent relative">
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>

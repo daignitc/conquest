@@ -30,9 +30,8 @@ function AnimatedTitle({ text }) {
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24 md:pt-16 pb-16">
-      {/* Subtle Vignette for Left-Side Typography Legibility */}
-      <div className="absolute inset-0 bg-gradient-to-r from-obsidian/90 via-obsidian/60 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent pointer-events-none" />
+      {/* Subtle Contrast for Typography Legibility */}
+      <div className="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-obsidian/20 to-transparent pointer-events-none" />
 
       {/* Text & Command Content */}
       <div className="relative z-10 px-6 md:px-16 lg:px-24 max-w-4xl py-12">

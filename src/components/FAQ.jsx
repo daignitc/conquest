@@ -89,7 +89,7 @@ export default function FAQ() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="faq" className="py-24 px-6 md:px-16 lg:px-24 bg-obsidian relative">
+    <section id="faq" className="py-24 px-6 md:px-16 lg:px-24 bg-transparent relative">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-2 mb-2 font-mono text-xs text-ion-blue">
           <HelpCircle size={14} />
