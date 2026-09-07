@@ -1,44 +1,7 @@
-import React, { Suspense, useRef } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
-import { Sparkles, Brain, Trophy, Users, Film, ExternalLink, Zap, Target } from "lucide-react";
+import { Sparkles, Brain, Trophy, Users, Film, ExternalLink, Zap, Target, Crosshair } from "lucide-react";
 import TiltCard from "./TiltCard";
-
-function TakeawaysArtifact() {
-  const meshRef = useRef();
-  useFrame(({ clock }) => {
-    if (!meshRef.current) return;
-    const t = clock.getElapsedTime();
-    meshRef.current.rotation.y = t * 0.4;
-    meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.2;
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.3} floatIntensity={0.6}>
-      <mesh ref={meshRef}>
-        <dodecahedronGeometry args={[1.5, 0]} />
-        <meshStandardMaterial
-          color="#5EE0FF"
-          emissive="#FF6A3D"
-          emissiveIntensity={0.4}
-          metalness={0.9}
-          roughness={0.1}
-          wireframe
-        />
-      </mesh>
-      <mesh scale={0.7}>
-        <icosahedronGeometry args={[1, 0]} />
-        <meshStandardMaterial
-          color="#FF6A3D"
-          emissive="#FF6A3D"
-          emissiveIntensity={0.8}
-          metalness={0.7}
-        />
-      </mesh>
-    </Float>
-  );
-}
 
 const takeawaysData = [
   {
@@ -88,13 +51,9 @@ export default function KeyTakeaways() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="takeaways" className="py-24 px-6 md:px-16 lg:px-24 bg-obsidian-raised/60 relative overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-ion-blue/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-ember/5 rounded-full blur-3xl pointer-events-none" />
-
+    <section id="takeaways" className="py-24 px-6 md:px-16 lg:px-24 bg-obsidian-raised/30 backdrop-blur-sm relative overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Header with 3D artifact side by side */}
+        {/* Header with Tactical Radar Widget */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-16">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-3 font-mono text-xs text-ember">
@@ -116,20 +75,28 @@ export default function KeyTakeaways() {
             </p>
           </div>
 
-          {/* 3D Visual Core */}
-          <div className="hidden lg:flex justify-center items-center h-48 w-full border border-iron/20 bg-obsidian/70 rounded-sm hud-corner relative">
-            <div className="absolute top-2 left-3 text-[10px] font-mono text-iron">
-              3D // TELEMETRY SYNC
+          {/* Tactical Radar Widget */}
+          <div className="hidden lg:flex flex-col justify-between p-5 h-48 w-full border border-iron/25 bg-obsidian-raised/80 backdrop-blur-md rounded-sm hud-corner relative">
+            <div className="flex items-center justify-between text-[10px] font-mono text-iron">
+              <span>TACTICAL RADAR // 4 AXES</span>
+              <span className="text-emerald-400 font-bold">100% TELEMETRY</span>
             </div>
-            <div className="w-full h-full">
-              <Suspense fallback={<div className="w-full h-full" />}>
-                <Canvas camera={{ position: [0, 0, 3.8], fov: 45 }}>
-                  <ambientLight intensity={0.4} />
-                  <pointLight position={[3, 3, 3]} intensity={1.5} color="#5EE0FF" />
-                  <pointLight position={[-3, -3, -2]} intensity={1.2} color="#FF6A3D" />
-                  <TakeawaysArtifact />
-                </Canvas>
-              </Suspense>
+
+            {/* Radar Circular Graphic */}
+            <div className="relative flex items-center justify-center my-auto">
+              <div className="w-20 h-20 rounded-full border border-iron/30 animate-pulse flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full border border-ion-blue/40 flex items-center justify-center">
+                  <div className="w-4 h-4 rounded-full bg-ember/60 animate-ping" />
+                </div>
+              </div>
+              <Crosshair size={24} className="absolute text-ion-blue/80" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 text-[10px] font-mono text-iron border-t border-iron/15 pt-2">
+              <div className="text-ember font-semibold">T-01: CREATIVE AI</div>
+              <div className="text-ion-blue font-semibold">T-02: CYPHER SQUAD</div>
+              <div className="text-ion-blue font-semibold">T-04: PROMPT SYNTAX</div>
+              <div className="text-ember font-semibold">T-03: ARENA REFLEX</div>
             </div>
           </div>
         </div>
@@ -147,15 +114,12 @@ export default function KeyTakeaways() {
               >
                 <TiltCard glowColor={item.color} maxTilt={9} className="h-full">
                   <div
-                    className="p-8 bg-obsidian-raised border border-iron/25 rounded-sm h-full flex flex-col justify-between hud-corner relative transition-all duration-300 hover:border-iron/60"
-                    style={{
-                      boxShadow: "0 10px 30px -10px rgba(0,0,0,0.6)",
-                    }}
+                    className="p-8 bg-obsidian-raised/80 backdrop-blur-md border border-iron/25 rounded-sm h-full flex flex-col justify-between hud-corner relative transition-all duration-300 hover:border-iron/60 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.6)]"
                   >
                     <div>
                       {/* Top row */}
                       <div className="flex items-center justify-between mb-4">
-                        <span className="font-mono text-xs tracking-wider" style={{ color: item.color }}>
+                        <span className="font-mono text-xs tracking-wider font-bold" style={{ color: item.color }}>
                           {item.territory}
                         </span>
                         <div
@@ -186,7 +150,7 @@ export default function KeyTakeaways() {
                         {item.badges.map((badge, bi) => (
                           <span
                             key={bi}
-                            className="px-2.5 py-1 rounded bg-obsidian border border-iron/20 font-mono text-[11px] text-parchment/80"
+                            className="px-2.5 py-1 rounded bg-obsidian/80 border border-iron/20 font-mono text-[11px] text-parchment/80"
                           >
                             {badge}
                           </span>
@@ -201,7 +165,7 @@ export default function KeyTakeaways() {
         </div>
 
         {/* Interactive Bottom Banner */}
-        <div className="border border-ember/40 bg-gradient-to-r from-obsidian-raised via-obsidian to-obsidian-raised p-8 md:p-10 rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 hud-corner">
+        <div className="border border-ember/40 bg-gradient-to-r from-obsidian-raised/90 via-obsidian/90 to-obsidian-raised/90 backdrop-blur-md p-8 md:p-10 rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 hud-corner shadow-2xl">
           <div>
             <span className="text-xs font-mono text-ember font-bold block mb-1">
               READY TO TEST YOUR CAPABILITIES?
