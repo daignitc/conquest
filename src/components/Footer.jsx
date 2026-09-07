@@ -67,7 +67,7 @@ export default function Footer() {
               { label: "Timeline", href: "#timeline" },
               { label: "Rules & Guidelines", href: "#rules" },
               { label: "Prizes", href: "#prizes" },
-              { label: "Coordinators", href: "#coordinators" },
+              { label: "Leadership & Committee", href: "#committee" },
               { label: "FAQ", href: "#faq" },
             ].map((l) => (
               <li key={l.label}>

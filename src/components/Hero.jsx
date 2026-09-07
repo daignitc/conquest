@@ -152,7 +152,7 @@ export default function Hero() {
         >
           <span className="w-2 h-2 rounded-full bg-ember animate-ping" />
           <span className="text-ember font-mono text-xs tracking-wider uppercase font-semibold">
-            OFFICIAL CALL TO CONQUEST // DEPT OF CSE &amp; AI/ML
+            OFFICIAL CALL TO CONQUEST // AIML · IoT · AI&amp;DS · GNITC
           </span>
         </motion.div>
 
@@ -200,7 +200,7 @@ export default function Hero() {
           className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10 max-w-lg text-xs font-mono text-iron border-y border-iron/20 py-3"
         >
           <div>
-            <span className="block text-ion-blue">HEAD OF DEPT</span>
+            <span className="block text-ion-blue">CONVENOR &amp; HOD</span>
             <span className="text-parchment font-medium">Dr. S. Madhu</span>
           </div>
           <div>

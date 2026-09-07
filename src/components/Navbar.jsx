@@ -8,7 +8,7 @@ const links = [
   { label: "Takeaways", href: "#takeaways" },
   { label: "Timeline", href: "#timeline" },
   { label: "Prizes", href: "#prizes" },
-  { label: "Contact", href: "#coordinators" },
+  { label: "Committee", href: "#committee" },
 ];
 
 export default function Navbar() {
