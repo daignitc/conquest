@@ -170,7 +170,7 @@ function EventCard({ event, onClick }) {
         onClick={onClick}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="relative h-full flex flex-col justify-between border border-iron/25 bg-obsidian-raised/90 p-6 cursor-pointer rounded-sm hud-corner transition-all duration-300"
+        className="relative h-full flex flex-col justify-between border border-iron/35 bg-obsidian-raised/95 backdrop-blur-xl p-6 cursor-pointer rounded-sm hud-corner transition-all duration-300"
         style={{
           borderColor: hovered ? event.color + "99" : undefined,
           boxShadow: hovered ? `0 15px 35px -10px rgba(0,0,0,0.8), 0 0 20px ${event.color}25` : undefined,
@@ -196,7 +196,7 @@ function EventCard({ event, onClick }) {
           </h3>
           <p className="text-iron font-body text-xs italic mb-4">{event.tagline}</p>
 
-          <p className="text-parchment/80 font-body text-xs leading-relaxed mb-4 line-clamp-2">
+          <p className="text-parchment font-body text-xs leading-relaxed mb-4 line-clamp-2">
             {event.short}
           </p>
         </div>

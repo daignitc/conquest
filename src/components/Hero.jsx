@@ -30,8 +30,8 @@ function AnimatedTitle({ text }) {
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24 md:pt-16 pb-16">
-      {/* Subtle Contrast for Typography Legibility */}
-      <div className="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-obsidian/20 to-transparent pointer-events-none" />
+      {/* Deep Contrast Backing for High Text Readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/80 to-transparent pointer-events-none" />
 
       {/* Text & Command Content */}
       <div className="relative z-10 px-6 md:px-16 lg:px-24 max-w-4xl py-12">
@@ -78,7 +78,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1, duration: 0.6 }}
-          className="text-parchment/85 font-body text-lg md:text-xl mb-8 max-w-xl leading-relaxed font-normal"
+          className="text-parchment font-body text-lg md:text-xl mb-8 max-w-xl leading-relaxed font-medium drop-shadow-sm"
         >
           Four high-stakes territories. Two intense campaign days. One college emerges supreme. 
           Claim territory across AI Reels, Treasure Hunt, E-Sports, and Prompt Wars.

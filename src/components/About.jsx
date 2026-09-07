@@ -38,18 +38,18 @@ export default function About() {
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-parchment/80 font-body leading-relaxed mb-6 text-base md:text-lg"
+            className="text-parchment font-body leading-relaxed mb-6 text-base md:text-lg"
           >
-            <strong className="text-parchment font-semibold">AI Conquest 2026</strong> is the flagship inter-collegiate campaign organized by the Department of Computer Science &amp; Engineering and AI/ML at GNI. It unites visionary builders, gamers, puzzle solvers, and prompt architects under one battlefield.
+            <strong className="text-parchment font-semibold">AI Conquest 2026</strong> is the flagship inter-collegiate campaign organized by the Department of AIML, IoT, and AI&amp;DS at Guru Nanak Institutions Technical Campus (GNITC). It unites visionary builders, gamers, puzzle solvers, and prompt architects under one battlefield.
           </motion.p>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.45, duration: 0.6 }}
-            className="text-iron font-body leading-relaxed mb-8 text-sm md:text-base"
+            className="text-parchment/80 font-body leading-relaxed mb-8 text-sm md:text-base"
           >
-            Under the mentorship and leadership of <span className="text-parchment font-medium">Dr. S. Madhu</span>, Head of Department, AI Conquest 2026 tests real-time intelligence, teamwork, cognitive agility, and creative mastery across 4 distinctive territories.
+            Under the mentorship and leadership of <span className="text-parchment font-medium">Dr. S. Madhu</span>, Convenor &amp; Head of Department, AI Conquest 2026 tests real-time intelligence, teamwork, cognitive agility, and creative mastery across 4 distinctive territories.
           </motion.p>
 
           {/* Institutional Credit Box */}

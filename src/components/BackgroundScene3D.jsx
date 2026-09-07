@@ -1,9 +1,10 @@
-import React, { Suspense, useRef, useEffect, useState } from "react";
+import React, { Suspense, useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, Stars, MeshDistortMaterial } from "@react-three/drei";
+import { Float, Stars } from "@react-three/drei";
 import * as THREE from "three";
 
-function GyroRing({ radius, speed, axis = "y", color = "#5EE0FF", thickness = 0.035 }) {
+// Delicate Cyber Wireframe Gyro Ring
+function SlenderRing({ radius, speed, axis = "y", color = "#5EE0FF", opacity = 0.5 }) {
   const ringRef = useRef();
   useFrame(({ clock }) => {
     if (!ringRef.current) return;
@@ -15,21 +16,23 @@ function GyroRing({ radius, speed, axis = "y", color = "#5EE0FF", thickness = 0.
 
   return (
     <mesh ref={ringRef}>
-      <torusGeometry args={[radius, thickness, 16, 64]} />
+      <torusGeometry args={[radius, 0.015, 16, 80]} />
       <meshStandardMaterial
         color={color}
         emissive={color}
-        emissiveIntensity={1.0}
-        roughness={0.2}
-        metalness={0.3}
+        emissiveIntensity={0.6}
+        transparent
+        opacity={opacity}
+        roughness={0.3}
       />
     </mesh>
   );
 }
 
-function RadiantCore({ scrollRef }) {
+// Light & Ethereal Cyber Torus Knot (Non-intrusive, clean aesthetic)
+function EtherealArtifact({ scrollRef }) {
   const groupRef = useRef();
-  const innerRef = useRef();
+  const knotRef = useRef();
   const cageRef = useRef();
   const { viewport } = useThree();
   const isMobile = viewport.width < 7;
@@ -39,92 +42,74 @@ function RadiantCore({ scrollRef }) {
     const t = clock.getElapsedTime();
     const scroll = scrollRef.current; // 0 to 1
 
-    // Target coordinates:
-    // Desktop: Hero right-side (x: 1.3), then gently moves across center as user scrolls
-    // Mobile: Centered (x: 0), placed higher up so it crowns the hero text
-    const targetX = isMobile ? 0 : 1.3 - scroll * 1.6 + pointer.x * 0.3;
-    const targetY = isMobile ? 0.6 - scroll * 0.5 : Math.sin(scroll * Math.PI) * 0.4 - pointer.y * 0.2;
-    const targetZ = isMobile ? -1.0 : -scroll * 0.8;
-    const targetScale = isMobile ? 0.85 : 1.15 - scroll * 0.15;
+    // Keep the model anchored on the RIGHT side to avoid clashing with text
+    // Desktop: x is ~2.0 to 2.3 (safely in the right margin)
+    // Mobile: centered but scaled down with lower opacity
+    const targetX = isMobile ? 0 : 2.0 - scroll * 0.4 + pointer.x * 0.2;
+    const targetY = isMobile ? 0.8 : -scroll * 0.3 - pointer.y * 0.15;
+    const targetZ = isMobile ? -1.5 : -0.8 - scroll * 0.5;
+    const targetScale = isMobile ? 0.65 : 1.05 - scroll * 0.1;
 
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.06);
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.06);
-    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, 0.06);
-    groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, 0.06));
+    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.05);
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05);
+    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, 0.05);
+    groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, 0.05));
 
-    if (innerRef.current) {
-      innerRef.current.rotation.y = t * 0.4 + scroll * Math.PI * 2;
-      innerRef.current.rotation.x = Math.sin(t * 0.25) * 0.3 + scroll * Math.PI;
+    if (knotRef.current) {
+      knotRef.current.rotation.y = t * 0.25 + scroll * Math.PI;
+      knotRef.current.rotation.x = Math.sin(t * 0.2) * 0.25;
     }
 
     if (cageRef.current) {
-      cageRef.current.rotation.y = -t * 0.25 - scroll * Math.PI;
-      cageRef.current.rotation.z = Math.cos(t * 0.3) * 0.3;
+      cageRef.current.rotation.y = -t * 0.18;
+      cageRef.current.rotation.z = Math.cos(t * 0.15) * 0.2;
     }
   });
 
   return (
-    <group ref={groupRef} position={[isMobile ? 0 : 1.3, 0, 0]}>
-      <Float speed={2.5} rotationIntensity={0.4} floatIntensity={0.8}>
-        {/* Core Point Light situated directly inside */}
-        <pointLight position={[0, 0, 0]} intensity={3.0} color="#5EE0FF" distance={8} />
+    <group ref={groupRef} position={[isMobile ? 0 : 2.0, 0, -0.8]}>
+      <Float speed={1.8} rotationIntensity={0.25} floatIntensity={0.5}>
+        {/* Soft, non-glaring central light */}
+        <pointLight position={[0, 0, 0]} intensity={1.2} color="#5EE0FF" distance={6} />
 
-        {/* Inner Pulsing Core Crystal */}
-        <mesh ref={innerRef}>
-          <icosahedronGeometry args={[1.4, 1]} />
-          <MeshDistortMaterial
+        {/* Ethereal Wireframe Torus Knot */}
+        <mesh ref={knotRef}>
+          <torusKnotGeometry args={[1.15, 0.25, 96, 16, 2, 3]} />
+          <meshStandardMaterial
             color="#5EE0FF"
-            emissive="#FF6A3D"
-            emissiveIntensity={0.85}
-            roughness={0.2}
-            metalness={0.2}
-            distort={0.35}
-            speed={2.5}
+            emissive="#5EE0FF"
+            emissiveIntensity={0.5}
+            wireframe
+            transparent
+            opacity={isMobile ? 0.35 : 0.55}
           />
         </mesh>
 
-        {/* Outer Geometric Wireframe Shield */}
-        <mesh ref={cageRef} scale={1.22}>
-          <icosahedronGeometry args={[1.4, 0]} />
+        {/* Outer Fine-Lattice Sphere Cage */}
+        <mesh ref={cageRef} scale={1.3}>
+          <icosahedronGeometry args={[1.3, 1]} />
           <meshStandardMaterial
             color="#FF6A3D"
             emissive="#FF6A3D"
-            emissiveIntensity={1.2}
+            emissiveIntensity={0.4}
             wireframe
+            transparent
+            opacity={isMobile ? 0.25 : 0.4}
           />
         </mesh>
 
-        {/* Inner Sun Bead */}
-        <mesh scale={0.5}>
-          <sphereGeometry args={[1, 16, 16]} />
-          <meshStandardMaterial
-            color="#FFFFFF"
-            emissive="#FF6A3D"
-            emissiveIntensity={2.0}
-          />
-        </mesh>
+        {/* Delicate Orbiting Rings */}
+        <SlenderRing radius={1.9} speed={0.3} axis="y" color="#FF6A3D" opacity={0.45} />
+        <SlenderRing radius={2.2} speed={-0.25} axis="x" color="#5EE0FF" opacity={0.4} />
 
-        {/* High-Visibility Gyro Rings */}
-        <GyroRing radius={2.0} speed={0.45} axis="y" color="#FF6A3D" thickness={0.035} />
-        <GyroRing radius={2.3} speed={-0.35} axis="x" color="#5EE0FF" thickness={0.03} />
-        <GyroRing radius={2.6} speed={0.25} axis="z" color="#F3EFE6" thickness={0.025} />
-
-        {/* Floating Neon Satellites */}
-        <mesh position={[2.4, 0.7, 0.5]} scale={0.26}>
+        {/* Minimal Floating Satellite Nodes */}
+        <mesh position={[2.0, 0.6, 0]} scale={0.15}>
           <octahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial color="#FF6A3D" emissive="#FF6A3D" emissiveIntensity={1.8} />
+          <meshStandardMaterial color="#FF6A3D" emissive="#FF6A3D" emissiveIntensity={0.8} transparent opacity={0.6} />
         </mesh>
-        <mesh position={[-2.3, -0.9, 0.6]} scale={0.24}>
+        <mesh position={[-1.9, -0.7, 0]} scale={0.13}>
           <octahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial color="#5EE0FF" emissive="#5EE0FF" emissiveIntensity={1.8} />
-        </mesh>
-        <mesh position={[0.5, -2.5, -0.5]} scale={0.2}>
-          <dodecahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial color="#F3EFE6" emissive="#5EE0FF" emissiveIntensity={1.5} />
-        </mesh>
-        <mesh position={[-0.8, 2.3, -0.4]} scale={0.22}>
-          <tetrahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial color="#FF6A3D" emissive="#FF6A3D" emissiveIntensity={1.6} />
+          <meshStandardMaterial color="#5EE0FF" emissive="#5EE0FF" emissiveIntensity={0.8} transparent opacity={0.6} />
         </mesh>
       </Float>
     </group>
@@ -134,17 +119,15 @@ function RadiantCore({ scrollRef }) {
 function Scene({ scrollRef }) {
   return (
     <>
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[6, 8, 5]} intensity={2.0} color="#5EE0FF" />
-      <directionalLight position={[-6, -6, -4]} intensity={1.5} color="#FF6A3D" />
-      <pointLight position={[4, 3, 3]} intensity={2.5} color="#5EE0FF" />
-      <pointLight position={[-4, -3, 2]} intensity={2.5} color="#FF6A3D" />
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[6, 6, 4]} intensity={0.8} color="#5EE0FF" />
+      <pointLight position={[-4, -3, 2]} intensity={0.8} color="#FF6A3D" />
 
-      {/* Radiant Starfield */}
-      <Stars radius={120} depth={60} count={4500} factor={4} saturation={0} fade speed={1.2} />
+      {/* Subtle, peaceful starfield */}
+      <Stars radius={100} depth={40} count={2800} factor={2.5} saturation={0} fade speed={0.6} />
 
-      {/* Floating 3D Radiant Core */}
-      <RadiantCore scrollRef={scrollRef} />
+      {/* Light, non-obtrusive 3D Artifact */}
+      <EtherealArtifact scrollRef={scrollRef} />
     </>
   );
 }
@@ -174,7 +157,7 @@ export default function BackgroundScene3D() {
     >
       <Suspense fallback={null}>
         <Canvas
-          camera={{ position: [0, 0, 5.5], fov: 52 }}
+          camera={{ position: [0, 0, 5.5], fov: 50 }}
           dpr={[1, 1.5]}
           gl={{ antialias: true, alpha: false }}
         >
